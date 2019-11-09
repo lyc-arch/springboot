@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.conner.springboot.mapper.ConnerAdressMapper">
+
+
+
+
+    <resultMap id="goodsImageMap" type="com.conner.springboot.pojo.ConnerGoods">
+        <id column="goID" property="goId"/>
+        <result column="goName" property="goName"/>
+        <result column="goCategory" property="goCategory"/>
+        <result column="goMessage" property="goMessage"/>
+        <result column="goCreateDate" property="goCreateDate"/>
+        <result column="goRentDate" property="goRentDate"/>
+        <result column="goBackDate" property="goBackDate"/>
+        <result column="goNumber" property="goNumber"/>
+        <result column="goRentAddress" property="goRentAddress"/>
+        <result column="goRentPrice" property="goRentPrice"/>
+        <result column="goGoodPrice" property="goGoodPrice"/>
+        <result column="goBackAddress" property="goBackAddress"/>
+        <result column="goGoodStatus" property="goGoodStatus"/>
+        <result column="goButtonColor" property="goButtonColor"/>
+        <result column="goAllPrice" property="goAllPrice"/>
+        <result column="goMasterName" property="goMasterName"/>
+        <result column="goMasterImage" property="goMasterImage"/>
+        <collection property="photosList" ofType="com.conner.springboot.pojo.ConnerPhotos">
+            <id column="poId" property="poId" />
+            <result property="poName" column="poName" javaType="String" jdbcType="VARCHAR"></result>
+
+        </collection>
+    </resultMap>
+
+
+    <select id="findAdress" resultType="com.conner.springboot.pojo.ConnerAddress">
+        select * from  conner_address
+    </select>
+
+    <select id="findAdressByAdId" resultType="com.conner.springboot.pojo.ConnerAddress">
+        select * from conner_address where adID=#{xxx}
+    </select>
+</mapper>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.conner.springboot.mapper.ConnerUserMapper">
+
+    <!--看是否存在该用户-->
+    <select id="findUserIfExit" resultType="com.conner.springboot.pojo.ConnerUser">
+        select * from conner_user where usOpenId=#{xxx}
+    </select>
+
+    <!--增加用户-->
+    <insert id="addUser" parameterType="com.conner.springboot.pojo.ConnerUser">
+        insert into conner_user(usID, usName, usImage, usDate,usOpenId,usIntegral)  values (#{usId},#{usName},#{usImage},#{usDate},#{usOpenId},#{usIntegral})
+    </insert>
+
+    <select id="myrentGood" resultType="com.conner.springboot.pojo.ConnerUser" parameterType="String">
+        select * from conner_user where usID = #{xxx}
+    </select>
+
+
+</mapper>

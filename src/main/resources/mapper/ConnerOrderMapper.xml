@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.conner.springboot.mapper.ConnerOrderMapper">
+
+
+
+
+
+    <!--通过id找到订单详细信息-->
+    <select id="findOrderbyusid" resultType="com.conner.springboot.pojo.ConnerOrder">
+        select * from conner_order where usid=#{xxx} order by orRentDate desc;
+    </select>
+
+
+    <!--增加订单-->
+    <insert id="insertOrder" parameterType="com.conner.springboot.pojo.ConnerOrder">
+        insert into conner_order(orId,orName,orPrice,orRentDate,orBackDate,orMaster,orImage,orStuats,usid,goid) values
+        (#{orId},#{orName},#{orPrice},#{orRentDate},#{orBackDate},#{orMaster},#{orImage},#{orStuats},#{usid},#{goid})
+    </insert>
+
+    <!--完成订单-->
+    <update id="back" parameterType="String">
+        update conner_order set orStuats="已完成",goid="" where goid=#{xxx}
+    </update>
+
+    <!--根据订单状态找到订单-->
+    <select id="findOrderByStatus" resultType="com.conner.springboot.pojo.ConnerOrder">
+        select * from conner_order where orStuats=#{xxx}
+    </select>
+</mapper>
+

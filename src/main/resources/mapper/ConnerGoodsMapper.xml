@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.conner.springboot.mapper.ConnerGoodsMapper">
+
+
+
+
+    <resultMap id="goodsImageMap" type="com.conner.springboot.pojo.ConnerGoods">
+        <id column="goID" property="goId"/>
+        <result column="goName" property="goName"/>
+        <result column="goCategory" property="goCategory"/>
+        <result column="goMessage" property="goMessage"/>
+        <result column="goCreateDate" property="goCreateDate"/>
+        <result column="goRentDate" property="goRentDate"/>
+        <result column="goBackDate" property="goBackDate"/>
+        <result column="goNumber" property="goNumber"/>
+        <result column="goRentAddress" property="goRentAddress"/>
+        <result column="goRentPrice" property="goRentPrice"/>
+        <result column="goGoodPrice" property="goGoodPrice"/>
+        <result column="goBackAddress" property="goBackAddress"/>
+        <result column="goGoodStatus" property="goGoodStatus"/>
+        <result column="goButtonColor" property="goButtonColor"/>
+        <result column="goAllPrice" property="goAllPrice"/>
+        <result column="goMasterName" property="goMasterName"/>
+        <result column="goMasterImage" property="goMasterImage"/>
+        <collection property="photosList" ofType="com.conner.springboot.pojo.ConnerPhotos">
+            <id column="poId" property="poId" />
+            <result property="poName" column="poName" javaType="String" jdbcType="VARCHAR"></result>
+
+        </collection>
+    </resultMap>
+
+    <!--通过物品类别把物品分类-->
+    <select id="findGoodsByName"  resultMap="goodsImageMap" parameterType="String">
+ SELECT * from conner_goods as g  LEFT JOIN conner_photos as p ON g.goID=p.goid where g.goCategory=#{xxx} order by g.goNumber desc;
+    </select>
+
+    <!--根据共享次数排序找出前4的物品-->
+    <select id="findFourGoods" resultMap="goodsImageMap" parameterType="String">
+        select   * from conner_goods as g left join conner_photos as p on g.goID=p.goid where g.goCategory=#{goCategory} order by g.goNumber desc limit 4
+         </select>
+
+    <!--通过id找到物品详细信息-->
+    <select id="findGoodById" resultMap="goodsImageMap" parameterType="String">
+        select * from conner_goods,conner_photos where conner_goods.goID=conner_photos.goid and conner_goods.goID=#{xxx}
+    </select>
+
+    <!--根据评论数量排名-->
+    <select id="talknumber" resultType="com.conner.springboot.pojo.ConnerGoods">
+        select * from conner_goods order by goGoodTalkNumber desc
+    </select>
+
+    <select id="findGoodByUsId" resultMap="goodsImageMap" parameterType="String">
+        SELECT * from conner_goods as g  LEFT JOIN conner_photos as p ON g.goID=p.goid where g.usid=#{xxx};
+    </select>
+    <!--共享成功-->
+    <update id="enjoyGood" parameterType="com.conner.springboot.pojo.ConnerGoods">
+        update conner_goods set goNumber=#{goNumber},goRentDate=#{goRentDate},goBackDate=#{goBackDate},goGoodStatus=#{goGoodStatus},goAllPrice=#{goAllPrice},
+        usid=#{usid},goButtonColor=#{goButtonColor},adid=#{adid} where goID=#{goId}
+    </update>
+
+    <select id="findGood" resultMap="goodsImageMap">
+        select * from conner_goods as g LEFT JOIN conner_photos as p ON g.goID=p.goid where g.goName like "%" #{xxx} "%" order by g.goNumber desc;
+    </select>
+
+    <select id="findGoodByAdId" resultMap="goodsImageMap">
+        select * from conner_goods as g LEFT JOIN conner_photos as p ON g.goID=p.goid where g.adid=#{xxx}
+
+    </select>
+
+    <!--判断是否有该物品-->
+    <select id="findGoodifrent" resultType="com.conner.springboot.pojo.ConnerGoods">
+        select * from conner_goods where goID=#{xxx}
+    </select>
+
+    <!--归还物品-->
+    <update id="backGood" parameterType="com.conner.springboot.pojo.ConnerGoods">
+        update conner_goods set goButtonColor=#{goButtonColor},goGoodStatus=#{goGoodStatus},goBackDate=#{goBackDate},goRentDate=#{goRentDate},usid=#{usid},
+        goBackAddress=#{goBackAddress},adid=#{adid},goAllPrice=#{goAllPrice} where goID=#{goId}
+    </update>
+</mapper>
+
